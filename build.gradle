@@ -1,8 +1,221 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-plugins {
-    id 'com.android.application' version '7.2.1' apply false
-    id 'com.android.library' version '7.2.1' apply false
-    id 'org.jetbrains.kotlin.android' version '1.7.0' apply false
+buildscript {
+    ext.kotlinVersion = "1.6.10"
+    ext.hiltVersion = "2.41"
+    ext.composeVersion = "1.1.1"
+    ext.coilVersion = "1.4.0"
+    ext.activityComposeVersion = "1.4.0"
+    ext.navigationComposeVersion = "2.3.5"
+    ext.accompanist = "0.23.1"
+    ext.realmPlugin = "10.10.0"
+    ext.jUnit = "4.13.1"
+    ext.fragmentKtx = "1.3.6"
+    ext.media2 = "1.2.0"
+    ext.materialVersion = "1.5.0"
+    ext.vanniktechVersion = "0.16.0"
+    ext.androidToolsVersion = "7.2.0"
+    ext.googleServiceVersion = "4.3.10"
+    ext.sonarSourceVersion = "2.6.1"
+    ext.ktlintVersion = "10.2.1"
+    ext.firebaseVersion = "1.4.1"
+    ext.firebaseCrashlytics = "2.8.1"
+    ext.androidXCoreVersion = "1.6.0"
+    ext.appCompatVersion = "1.4.1"
+    ext.easyImageVersion = "2.0.2"
+    ext.savedStateVersion = "1.1.0"
+    ext.lifecycleVersion = "2.4.1"
+    ext.timehopVersion = "0.4.3"
+    ext.commonsIoVersion = "2.8.0"
+    ext.skeletonVersion = "1.1.1"
+    ext.shimmerLayoutVersion = "2.1.0"
+    ext.zhanghaiVersion = "1.3.3"
+    ext.pragmatistsVersion = "1.1.1"
+    ext.powermockVersion = "1.6.2"
+    ext.mockitoVersion = "2.23.4"
+    ext.mockito2Version = "2.0.9"
+    ext.mockitoKotlin2 = "2.2.0"
+    ext.mockitoKotlin = "1.5.0"
+    ext.robolectricVersion = "4.4"
+    ext.robolectricShadowMultidexVersion = "3.5.1"
+    ext.assertjVersion = "1.1.1"
+    ext.hamcrestVersion = "1.3"
+    ext.moshiVersion = "1.13.0"
+    ext.moshiConverterVersion = "2.9.0"
+    ext.onetrustVersion = "6.18.0.0"
+    ext.pdfViewerVersion = "2.8.2"
+    ext.zeloryVersion = "3.0.1"
+    ext.scanditVersion = "6.12.0"
+    ext.androidTestJUnitVersion = "1.1.3"
+    ext.androidTestEspressoVersion = "3.4.0"
+    ext.davemorrisseyVersion = "3.10.0"
+    ext.googleMapVersion = "0.5"
+    ext.expandableLayoutVersion = "2.9.2"
+    ext.polestarVersion = "4.9.0"
+    ext.testCoreVersion = "1.4.0"
+    ext.bugseeVersion = "1.19.2"
+    ext.okhttpVersion = "4.9.0"
+    ext.curlLoggerInterceptorVersion = "0.1"
+    ext.retrofit2Version = "2.9.0"
+    ext.datadomeVersion = "1.6.3"
+    ext.rxJavaVersion = "2.2.9"
+    ext.rxKotlinVersion = "2.3.0"
+    ext.rxAndroidVersion = "2.1.1"
+    ext.rxBindingVersion = "2.2.0"
+    ext.playServiceBaseVersion = "18.0.1"
+    ext.playServiceBasementVersion = "18.0.0"
+    ext.playServiceGcmVersion = "17.0.0"
+    ext.playServiceLocationVersion = "19.0.0"
+    ext.playServiceVisionVersion = "20.1.3"
+    ext.playServiceVersion = "18.0.1"
+    ext.greenRobotVersion = "3.2.0"
+    ext.jodaVersion = "2.10.6"
+    ext.jodatimeSerialiserVersion = "1.8.0"
+    ext.zxingVersion = "3.4.1"
+    ext.gsonVersion = "2.8.8"
+    ext.tagCommanderCoreVersion = "4.5.0"
+    ext.tagCommanderSdkVersion = "4.4.0"
+    ext.tagCommanderSegmentVersion = "4.1.1"
+    ext.easyPermissionsVersion = "1.3.0"
+    ext.rxPermissionsVersion = "0.10.2"
+    ext.flexboxVersion = "1.0.0"
+    ext.lottieVersion = "5.0.2"
+    ext.phraseVersion = "3.1.2"
+    ext.glideVersion = "4.13.0"
+    ext.glideTransformationsVersion = "3.3.0"
+    ext.photoViewVersion = "2.3.0"
+    ext.scrollingPagerIndicatorVersion = "1.0.6"
+    ext.collectionKtxVersion = "1.1.0"
+    ext.biometricVersion = "1.1.0"
+    ext.iAdvizeVersion = "2.2.3"
+    ext.landscapistGlideVersion = "1.4.8"
+    ext.brightcoveVersion = "6.18.2"
+    ext.airshipVersion = "16.3.3"
+    ext.roomVersion = "2.4.2"
+
+    repositories {
+        google()
+        jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+
+    dependencies {
+        classpath "com.android.tools.build:gradle:$androidToolsVersion"
+        classpath "com.google.gms:google-services:$googleServiceVersion"
+        classpath "io.realm:realm-gradle-plugin:$realmPlugin"
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:$sonarSourceVersion"
+        classpath "org.jlleitschuh.gradle:ktlint-gradle:$ktlintVersion"
+        classpath "com.google.firebase:perf-plugin:$firebaseVersion"
+        classpath "com.google.dagger:hilt-android-gradle-plugin:$hiltVersion"
+        classpath "com.google.firebase:firebase-crashlytics-gradle:$firebaseCrashlytics"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "com.datadoghq:dd-sdk-android-gradle-plugin:1.1.0"
+    }
+}
+
+apply plugin: "org.jlleitschuh.gradle.ktlint"
+apply from: 'utils.gradle'
+//apply from: 'ci-cd.gradle'
+
+
+allprojects {
+    buildscript {
+        repositories {
+            google()
+            jcenter()
+        }
+    }
+
+    repositories {
+        google()
+        jcenter()
+        maven {
+            url 'https://adeo.jfrog.io/artifactory/generic-lmfr-app-leroy-merlin'
+            credentials {
+                username = String.valueOf(System.getenv("ARTIFACTORY_USER")) ?: "$artifactoryUser"
+                password = String.valueOf(System.getenv("ARTIFACTORY_APIKEY")) ?: "$artifactoryPassword"
+            }
+        }
+        maven { url 'https://jitpack.io' }
+        maven { url "https://raw.github.com/iadvize/iadvize-android-sdk/master" }
+    }
+
+    project.ext {
+        amgpCompileSdkVersion = 31
+        amgpMinSdkVersion = 24
+        amgpTargetSdkVersion = 30
+
+        kotlinVersion = rootProject.kotlinVersion
+        hiltVersion = rootProject.hiltVersion
+    }
+
+    configurations.all {
+        exclude group: 'xpp3', module: 'xpp3'
+        resolutionStrategy.force "com.squareup.okhttp3:okhttp:$okhttpVersion"
+        resolutionStrategy.force "androidx.fragment:fragment-ktx:$fragmentKtx"
+    }
+
+}
+
+subprojects { p ->
+    apply plugin: "org.jlleitschuh.gradle.ktlint"
+
+    ktlint {
+        verbose = true
+        android = false
+        outputColorName = "RED"
+        enableExperimentalRules = true
+    }
+
+    p.afterEvaluate {
+        p.android {
+            testOptions {
+                unitTests.returnDefaultValues true
+                unitTests.includeAndroidResources true
+                unitTests {
+                    all {
+                        jvmArgs '-noverify'
+                        maxHeapSize = "2048m"
+                    }
+                }
+            }
+
+            compileOptions {
+                sourceCompatibility JavaVersion.VERSION_1_8
+                targetCompatibility JavaVersion.VERSION_1_8
+            }
+
+            kotlinOptions {
+                jvmTarget = JavaVersion.VERSION_1_8.toString()
+                freeCompilerArgs = ['-Xjvm-default=enable']
+            }
+
+            lintOptions {
+                ignore 'InvalidPackage'
+                disable "Instantiatable"
+                checkDependencies true
+                textReport false
+                xmlReport false
+                htmlReport true
+                htmlOutput file("${p.name}/build/reports/lint-${p.name}-report.html")
+            }
+
+            buildFeatures {
+                viewBinding true
+            }
+
+            flavorDimensions "environment"
+            productFlavors {
+                qa {
+                    dimension "environment"
+                }
+
+                prod {
+                    dimension "environment"
+                }
+            }
+        }
+    }
 }
 
 task clean(type: Delete) {

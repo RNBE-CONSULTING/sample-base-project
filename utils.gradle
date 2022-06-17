@@ -1,0 +1,64 @@
+allprojects { apply from: rootProject.projectDir.toString() + "/AnsiColor.gradle" }
+
+rootProject.ext {
+    printlnColor = { String text, color ->
+        println("$color$text$AnsiColor.NORMAL")
+    }
+
+    getGitHash = { ->
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'rev-parse', 'HEAD'
+            standardOutput = stdout
+        }
+        return stdout.toString().trim()
+    }
+
+    isSameChecksum = { first, second ->
+        def firstChecksum = ""
+        try { firstChecksum = file(first).getText('UTF-8').md5() } catch(Exception e) { printlnColor("Cannot find '$first'", AnsiColor.RED) }
+        def secondChecksum = ""
+        try { secondChecksum = file(second).getText('UTF-8').md5() } catch(Exception e) { println printlnColor("Cannot find '$second'", AnsiColor.RED)  }
+
+        return firstChecksum != "" && firstChecksum == secondChecksum
+    }
+
+
+    localIP = { ->
+        InetAddress result = null
+        Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces()
+        while (interfaces.hasMoreElements()) {
+            Enumeration<InetAddress> addresses = interfaces.nextElement().getInetAddresses()
+            while (addresses.hasMoreElements()) {
+                InetAddress address = addresses.nextElement()
+                if (!address.isLoopbackAddress()) {
+                    if (address.isSiteLocalAddress()) {
+                        return address.getHostAddress()
+                    } else if (result == null) {
+                        result = address
+                    }
+                }
+            }
+        }
+        return (result != null ? result : InetAddress.getLocalHost()).getHostAddress()
+    }
+
+}
+
+afterEvaluate {
+    def hooks = [
+//            "commit-msg":".githooks/hook-commit-msg.py"
+    ]
+
+    hooks.forEach {hookName, hookFile ->
+        if(!isSameChecksum(".git/hooks/$hookName", hookFile)) {
+            copy {
+                from file("${rootProject.projectDir.toString()}/$hookFile")
+                into "${rootProject.projectDir.toString()}/.git/hooks"
+                rename { hookName }
+            }
+            printlnColor("GitHooks ($hookName) installed !", AnsiColor.GREEN)
+        }
+        exec { commandLine('chmod', '+x', "${rootProject.projectDir.toString()}/.git/hooks/$hookName") }
+    }
+}
